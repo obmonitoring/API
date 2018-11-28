@@ -1,0 +1,636 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "0.0.46",
+    "title" : "Monitoring API"
+  },
+  "host" : "monitoring.yapily.com",
+  "basePath" : "/",
+  "tags" : [ {
+    "name" : "Incidents",
+    "description" : " "
+  }, {
+    "name" : "Requests",
+    "description" : " "
+  }, {
+    "name" : "Events",
+    "description" : " "
+  } ],
+  "paths" : {
+    "/api/events" : {
+      "get" : {
+        "tags" : [ "Events" ],
+        "summary" : "Read events",
+        "operationId" : "getEventUsingGET",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "offset",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "size",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Events" ],
+        "summary" : "Create event",
+        "operationId" : "saveEventUsingPOST",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "newEvent",
+          "description" : "newEvent",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewEvent"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/Event"
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/events/{event-uuid}/logs" : {
+      "post" : {
+        "tags" : [ "Events" ],
+        "summary" : "Create event log",
+        "operationId" : "saveEventLogUsingPOST",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "event-uuid",
+          "in" : "path",
+          "description" : "event-uuid",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "eventLog",
+          "description" : "eventLog",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewEventLog"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/EventLog"
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/requests" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "Save batch of requests",
+        "operationId" : "saveRequestsUsingPOST",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "batchRequests",
+          "description" : "batchRequests",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/NewBatchRequests"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Request"
+              }
+            }
+          },
+          "201" : {
+            "description" : "Created"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/status" : {
+      "get" : {
+        "tags" : [ "Incidents" ],
+        "summary" : "Get statuses",
+        "operationId" : "getStatusesUsingGET_1",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "institutionId",
+          "in" : "query",
+          "description" : "institutionId",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "resourceGroup",
+          "in" : "query",
+          "description" : "resourceGroup",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "resource",
+          "in" : "query",
+          "description" : "resource",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "object"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/status/{status-uuid}" : {
+      "get" : {
+        "tags" : [ "Incidents" ],
+        "summary" : "Get status",
+        "operationId" : "getStatusesUsingGET",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json;charset=UTF-8" ],
+        "parameters" : [ {
+          "name" : "status-uuid",
+          "in" : "path",
+          "description" : "status-uuid",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/OptionalOfStatus"
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "403" : {
+            "description" : "Forbidden"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    }
+  },
+  "definitions" : {
+    "NewBaseRequest" : {
+      "type" : "object",
+      "required" : [ "method", "response", "time", "uriTemplate" ],
+      "properties" : {
+        "time" : {
+          "type" : "string"
+        },
+        "method" : {
+          "type" : "string",
+          "enum" : [ "GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "TRACE" ]
+        },
+        "uriTemplate" : {
+          "type" : "string"
+        },
+        "response" : {
+          "$ref" : "#/definitions/RequestResponse"
+        }
+      }
+    },
+    "Status" : {
+      "type" : "object",
+      "properties" : {
+        "duration" : {
+          "$ref" : "#/definitions/Duration"
+        },
+        "institution" : {
+          "$ref" : "#/definitions/Institution"
+        },
+        "resource" : {
+          "$ref" : "#/definitions/InstitutionResource"
+        },
+        "state" : {
+          "type" : "string",
+          "enum" : [ "UP", "DOWN", "WARNING", "UNKNOWN" ]
+        },
+        "time" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "OptionalOfStatus" : {
+      "type" : "object",
+      "properties" : {
+        "present" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "TemporalUnit" : {
+      "type" : "object",
+      "properties" : {
+        "dateBased" : {
+          "type" : "boolean"
+        },
+        "duration" : {
+          "$ref" : "#/definitions/Duration"
+        },
+        "durationEstimated" : {
+          "type" : "boolean"
+        },
+        "timeBased" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "EventLog" : {
+      "type" : "object",
+      "properties" : {
+        "action" : {
+          "type" : "string",
+          "enum" : [ "SCHEDULED", "UPDATE", "CANCELLED", "RESOLVED", "INVESTIGATING", "MONITORING", "IN_PROGRESS" ]
+        },
+        "applicationUuid" : {
+          "type" : "string"
+        },
+        "details" : {
+          "type" : "string"
+        },
+        "eventUuid" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Media" : {
+      "type" : "object",
+      "properties" : {
+        "source" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Request" : {
+      "type" : "object",
+      "properties" : {
+        "method" : {
+          "type" : "string",
+          "enum" : [ "GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "TRACE" ]
+        },
+        "originRegion" : {
+          "type" : "string"
+        },
+        "resource" : {
+          "$ref" : "#/definitions/InstitutionResource"
+        },
+        "response" : {
+          "$ref" : "#/definitions/RequestResponse"
+        },
+        "time" : {
+          "type" : "string"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Duration" : {
+      "type" : "object",
+      "properties" : {
+        "nano" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "negative" : {
+          "type" : "boolean"
+        },
+        "seconds" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "units" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TemporalUnit"
+          }
+        },
+        "zero" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "Institution" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "fullName" : {
+          "type" : "string"
+        },
+        "countries" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Country"
+          }
+        },
+        "environmentType" : {
+          "type" : "string",
+          "enum" : [ "SANDBOX", "MOCK", "LIVE" ]
+        },
+        "media" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Media"
+          }
+        }
+      }
+    },
+    "RequestResponse" : {
+      "type" : "object",
+      "required" : [ "duration", "type" ],
+      "properties" : {
+        "code" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "details" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "string"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string",
+          "enum" : [ "UNREACHABLE", "ERROR", "SUCCESS" ]
+        }
+      }
+    },
+    "NewEventLog" : {
+      "type" : "object",
+      "properties" : {
+        "action" : {
+          "type" : "string",
+          "enum" : [ "SCHEDULED", "UPDATE", "CANCELLED", "RESOLVED", "INVESTIGATING", "MONITORING", "IN_PROGRESS" ]
+        },
+        "applicationUuid" : {
+          "type" : "string"
+        },
+        "details" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "string"
+        }
+      }
+    },
+    "NewBatchRequests" : {
+      "type" : "object",
+      "required" : [ "applicationUuid", "institutionId", "originRegion", "requests" ],
+      "properties" : {
+        "applicationUuid" : {
+          "type" : "string"
+        },
+        "originRegion" : {
+          "type" : "string"
+        },
+        "institutionId" : {
+          "type" : "string"
+        },
+        "requests" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/NewBaseRequest"
+          }
+        }
+      }
+    },
+    "InstitutionResource" : {
+      "type" : "object",
+      "properties" : {
+        "institutionId" : {
+          "type" : "string"
+        },
+        "resourceGroup" : {
+          "type" : "string"
+        },
+        "resourceKey" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "resourceName" : {
+          "type" : "string"
+        },
+        "resourceTemplateUri" : {
+          "type" : "string"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Event" : {
+      "type" : "object",
+      "properties" : {
+        "applicationUuid" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "string"
+        },
+        "eventLogs" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EventLog"
+          }
+        },
+        "institution" : {
+          "$ref" : "#/definitions/Institution"
+        },
+        "resource" : {
+          "$ref" : "#/definitions/InstitutionResource"
+        },
+        "scope" : {
+          "type" : "string",
+          "enum" : [ "INSTITUTION", "RESOURCE_GROUP", "RESOURCE" ]
+        },
+        "time" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "uuid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Country" : {
+      "type" : "object",
+      "properties" : {
+        "countryCode2" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "NewEvent" : {
+      "type" : "object",
+      "properties" : {
+        "action" : {
+          "type" : "string",
+          "enum" : [ "SCHEDULED", "UPDATE", "CANCELLED", "RESOLVED", "INVESTIGATING", "MONITORING", "IN_PROGRESS" ]
+        },
+        "details" : {
+          "type" : "string"
+        },
+        "duration" : {
+          "type" : "string"
+        },
+        "institutionId" : {
+          "type" : "string"
+        },
+        "resourceGroup" : {
+          "type" : "string"
+        },
+        "resourceUuid" : {
+          "type" : "string"
+        },
+        "scope" : {
+          "type" : "string",
+          "enum" : [ "INSTITUTION", "RESOURCE_GROUP", "RESOURCE" ]
+        },
+        "time" : {
+          "type" : "string"
+        },
+        "title" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
